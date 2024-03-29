@@ -2,6 +2,7 @@
 '''
 A script that codes markdown to HTML
 '''
+
 import sys
 import os
 import re
@@ -19,6 +20,7 @@ def parse_markdown_heading(line):
     else:
         return None
 
+
 def parse_markdown_unordered_list(line):
     """
     Parses Markdown unordered list syntax and generates corresponding HTML.
@@ -30,6 +32,7 @@ def parse_markdown_unordered_list(line):
         return f'<li>{list_item}</li>\n'
     else:
         return None
+
 
 def parse_markdown_ordered_list(line):
     """
@@ -43,6 +46,7 @@ def parse_markdown_ordered_list(line):
     else:
         return None
 
+
 def parse_markdown_paragraph(line):
     """
     Parses Markdown paragraph syntax and generates corresponding HTML.
@@ -52,6 +56,7 @@ def parse_markdown_paragraph(line):
         return f'<p>\n    {line.strip()}\n</p>\n'
     else:
         return None
+
 
 if __name__ == '__main__':
     # Test that the number of arguments passed is 2
@@ -86,6 +91,10 @@ if __name__ == '__main__':
             else:
                 html_content.append(line)
 
+        if in_list:
+            html_content.append('</ul>\n') if html_line.startswith('</li>') else html_content.append('</ol>\n')
+
     # Write HTML content to output file
     with open(output_file, 'w', encoding='utf-8') as html_file:
         html_file.writelines(html_content)
+
