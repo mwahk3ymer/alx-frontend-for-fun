@@ -6,12 +6,35 @@ import sys
 import os
 import re
 
-if __name__ == '__main__':
+def parse_markdown_heading(line):
+    """
+    Parses Markdown heading syntax and generates corresponding HTML.
+    Returns the HTML representation of the heading.
+    """
+    match = re.match(r'^(#{1,6})\s(.*)$', line)
+    if match:
+        heading_level = len(match.group(1))
+        heading_text = match.group(2)
+        return f'<h{heading_level}>{heading_text}</h{heading_level}>\n'
+    else:
+        return None
 
+def parse_markdown_unordered_list(line):
+    """
+    Parses Markdown unordered list syntax and generates corresponding HTML.
+    Returns the HTML representation of the list.
+    """
+    match = re.match(r'^-\s(.*)$', line)
+    if match:
+        list_item = match.group(1)
+        return f'<li>{list_item}</li>\n'
+    else:
+        return None
+
+if __name__ == '__main__':
     # Test that the number of arguments passed is 2
     if len(sys.argv[1:]) != 2:
-        print('Usage: ./markdown2html.py README.md README.html',
-              file=sys.stderr)
+        print('Usage: ./markdown2html.py README.md README.html', file=sys.stderr)
         sys.exit(1)
 
     # Store the arguments into variables
@@ -23,21 +46,24 @@ if __name__ == '__main__':
         print(f'Missing {input_file}', file=sys.stderr)
         sys.exit(1)
 
-    with open(input_file, encoding='utf-8') as file_1:
+    # Parse Markdown and generate HTML
+    with open(input_file, 'r', encoding='utf-8') as md_file:
+        md_content = md_file.readlines()
         html_content = []
-        md_content = [line[:-1] for line in file_1.readlines()]
+        in_list = False
         for line in md_content:
-            heading = re.split(r'#{1,6} ', line)
-            if len(heading) > 1:
-                # Compute the number of the # present to
-                # determine heading level
-                h_level = len(line[:line.find(heading[1])-1])
-                # Append the html equivalent of the heading
-                html_content.append(
-                    f'<h{h_level}>{heading[1]}</h{h_level}>\n'
-                )
+            html_line = parse_markdown_heading(line) or parse_markdown_unordered_list(line)
+            if html_line:
+                if not in_list and html_line.startswith('<li>'):
+                    html_content.append('<ul>\n')
+                    in_list = True
+                html_content.append(html_line)
+            elif in_list:
+                html_content.append('</ul>\n')
+                in_list = False
             else:
                 html_content.append(line)
 
-    with open(output_file, 'w', encoding='utf-8') as file_2:
-        file_2.writelines(html_content)
+    # Write HTML content to output file
+    with open(output_file, 'w', encoding='utf-8') as html_file:
+        html_file.writelines(html_content)
