@@ -24,7 +24,19 @@ def parse_markdown_unordered_list(line):
     Parses Markdown unordered list syntax and generates corresponding HTML.
     Returns the HTML representation of the list.
     """
-    match = re.match(r'^-\s(.*)$', line)
+    match = re.match(r'^\*\s(.*)$', line)
+    if match:
+        list_item = match.group(1)
+        return f'<li>{list_item}</li>\n'
+    else:
+        return None
+
+def parse_markdown_ordered_list(line):
+    """
+    Parses Markdown ordered list syntax and generates corresponding HTML.
+    Returns the HTML representation of the list.
+    """
+    match = re.match(r'^\d+\.\s(.*)$', line)
     if match:
         list_item = match.group(1)
         return f'<li>{list_item}</li>\n'
@@ -52,14 +64,14 @@ if __name__ == '__main__':
         html_content = []
         in_list = False
         for line in md_content:
-            html_line = parse_markdown_heading(line) or parse_markdown_unordered_list(line)
+            html_line = parse_markdown_heading(line) or parse_markdown_unordered_list(line) or parse_markdown_ordered_list(line)
             if html_line:
                 if not in_list and html_line.startswith('<li>'):
-                    html_content.append('<ul>\n')
+                    html_content.append('<ul>\n') if html_line.startswith('<li>*') else html_content.append('<ol>\n')
                     in_list = True
                 html_content.append(html_line)
             elif in_list:
-                html_content.append('</ul>\n')
+                html_content.append('</ul>\n') if html_line.startswith('</li>') else html_content.append('</ol>\n')
                 in_list = False
             else:
                 html_content.append(line)
