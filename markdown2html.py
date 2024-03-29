@@ -43,6 +43,16 @@ def parse_markdown_ordered_list(line):
     else:
         return None
 
+def parse_markdown_paragraph(line):
+    """
+    Parses Markdown paragraph syntax and generates corresponding HTML.
+    Returns the HTML representation of the paragraph.
+    """
+    if line.strip():
+        return f'<p>\n    {line.strip()}\n</p>\n'
+    else:
+        return None
+
 if __name__ == '__main__':
     # Test that the number of arguments passed is 2
     if len(sys.argv[1:]) != 2:
@@ -64,7 +74,7 @@ if __name__ == '__main__':
         html_content = []
         in_list = False
         for line in md_content:
-            html_line = parse_markdown_heading(line) or parse_markdown_unordered_list(line) or parse_markdown_ordered_list(line)
+            html_line = parse_markdown_heading(line) or parse_markdown_unordered_list(line) or parse_markdown_ordered_list(line) or parse_markdown_paragraph(line)
             if html_line:
                 if not in_list and html_line.startswith('<li>'):
                     html_content.append('<ul>\n') if html_line.startswith('<li>*') else html_content.append('<ol>\n')
@@ -79,3 +89,4 @@ if __name__ == '__main__':
     # Write HTML content to output file
     with open(output_file, 'w', encoding='utf-8') as html_file:
         html_file.writelines(html_content)
+
