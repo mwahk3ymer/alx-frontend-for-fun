@@ -227,8 +227,7 @@
     font-weight: var(--nav-item-font-weight);
     font-size: var(--nav-item-font-size);
     letter-spacing: var(--nav-item-letter-spacing);
-    margin: var(--nav-item-margin);
-  }
+ }
   
   .nav .nav-link {
     display: block;
@@ -262,6 +261,7 @@
   .header-container {
      display: flex;
      justify-content: space-between;
+     align-items: center;
    }
   
   .header {
