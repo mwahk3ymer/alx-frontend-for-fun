@@ -97,4 +97,3 @@ if __name__ == '__main__':
     # Write HTML content to output file
     with open(output_file, 'w', encoding='utf-8') as html_file:
         html_file.writelines(html_content)
-
