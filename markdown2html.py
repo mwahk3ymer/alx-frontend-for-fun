@@ -18,54 +18,6 @@ if __name__ == '__main__':
         print('Missing {}'.format(sys.argv[1]), file=sys.stderr)
         exit(1)
 
-<<<<<<< HEAD
-def parse_markdown_unordered_list(line):
-    """
-    Parses Markdown unordered list syntax and generates corresponding HTML.
-    Returns the HTML representation of the list.
-    """
-<<<<<<< HEAD
-    match = re.match(r'^-\s(.*)$', line)
-=======
-    match = re.match(r'^\*\s(.*)$', line)
-    if match:
-        list_item = match.group(1)
-        return f'<li>{list_item}</li>\n'
-    else:
-        return None
-
-def parse_markdown_ordered_list(line):
-    """
-    Parses Markdown ordered list syntax and generates corresponding HTML.
-    Returns the HTML representation of the list.
-    """
-    match = re.match(r'^\d+\.\s(.*)$', line)
->>>>>>> 3cc326b27869e281773cf022d8095c1834a6de20
-    if match:
-        list_item = match.group(1)
-        return f'<li>{list_item}</li>\n'
-    else:
-        return None
-
-<<<<<<< HEAD
-=======
-def parse_markdown_paragraph(line):
-    """
-    Parses Markdown paragraph syntax and generates corresponding HTML.
-    Returns the HTML representation of the paragraph.
-    """
-    if line.strip():
-        return f'<p>\n    {line.strip()}\n</p>\n'
-    else:
-        return None
-
->>>>>>> 3cc326b27869e281773cf022d8095c1834a6de20
-if __name__ == '__main__':
-    # Test that the number of arguments passed is 2
-    if len(sys.argv[1:]) != 2:
-        print('Usage: ./markdown2html.py README.md README.html', file=sys.stderr)
-        sys.exit(1)
-=======
     with open(sys.argv[1]) as read:
         with open(sys.argv[2], 'w') as html:
             unordered_start, ordered_start, paragraph = False, False, False
@@ -103,7 +55,6 @@ if __name__ == '__main__':
                     line = '<h{}>'.format(
                         heading_num) + headings.strip() + '</h{}>\n'.format(
                         heading_num)
->>>>>>> 9de0f0359cc901a5d8f9c2744aae753fca29b1f0
 
                 if unordered_num:
                     if not unordered_start:
@@ -123,44 +74,6 @@ if __name__ == '__main__':
                     html.write('</ol>\n')
                     ordered_start = False
 
-<<<<<<< HEAD
-    # Parse Markdown and generate HTML
-    with open(input_file, 'r', encoding='utf-8') as md_file:
-        md_content = md_file.readlines()
-        html_content = []
-        in_list = False
-        for line in md_content:
-<<<<<<< HEAD
-            html_line = parse_markdown_heading(line) or parse_markdown_unordered_list(line)
-            if html_line:
-                if not in_list and html_line.startswith('<li>'):
-                    html_content.append('<ul>\n')
-                    in_list = True
-                html_content.append(html_line)
-            elif in_list:
-                html_content.append('</ul>\n')
-=======
-            html_line = parse_markdown_heading(line) or parse_markdown_unordered_list(line) or parse_markdown_ordered_list(line) or parse_markdown_paragraph(line)
-            if html_line:
-                if not in_list and html_line.startswith('<li>'):
-                    html_content.append('<ul>\n') if html_line.startswith('<li>*') else html_content.append('<ol>\n')
-                    in_list = True
-                html_content.append(html_line)
-            elif in_list:
-                html_content.append('</ul>\n') if html_line.startswith('</li>') else html_content.append('</ol>\n')
->>>>>>> 3cc326b27869e281773cf022d8095c1834a6de20
-                in_list = False
-            else:
-                html_content.append(line)
-
-    # Write HTML content to output file
-    with open(output_file, 'w', encoding='utf-8') as html_file:
-        html_file.writelines(html_content)
-<<<<<<< HEAD
-=======
-
->>>>>>> 3cc326b27869e281773cf022d8095c1834a6de20
-=======
                 if not (heading_num or unordered_start or ordered_start):
                     if not paragraph and length > 1:
                         html.write('<p>\n')
@@ -181,4 +94,3 @@ if __name__ == '__main__':
             if paragraph:
                 html.write('</p>\n')
     exit (0)
->>>>>>> 9de0f0359cc901a5d8f9c2744aae753fca29b1f0
