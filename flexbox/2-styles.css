@@ -380,8 +380,7 @@
 
   /* Target the row class inside section-latest-news class */
   .section-latest-news .row {
-	      /* Set flex-direction to row-reverse */
-	      flex-direction: row-reverse;
+    flex-direction: row-reverse;
    }
 
   /*** 4. CARD ***/
