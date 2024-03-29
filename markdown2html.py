@@ -49,9 +49,9 @@ def parse_markdown_paragraph(line):
     Returns the HTML representation of the paragraph.
     """
     if line.strip():
-        return f'<p>\n    {line.strip()}\n</p>\n'
+        return f'<p>\n    {line}\n</p>\n'
     else:
-        return None
+        return '<br/>\n'
 
 if __name__ == '__main__':
     # Test that the number of arguments passed is 2
