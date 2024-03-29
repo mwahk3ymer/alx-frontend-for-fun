@@ -210,11 +210,11 @@
   
   /* Navbar
       ============================= */
-  
+  /*
   .navbar-menu {
     float: right;
   }
-  
+  */
   .nav {
     margin: 0;
     padding: 0;
@@ -271,7 +271,8 @@
          z-index: 3;
          background: transparent;
   }
-  
+ 
+ /************ 
   .header-logo {
     position: var(--header-logo-position);
   }
@@ -282,7 +283,7 @@
     top: var(--header-logo-link-top);
     left: var(--header-logo-link-left);
   }
-  
+  */
   /* Footer
       ============================= */
   
